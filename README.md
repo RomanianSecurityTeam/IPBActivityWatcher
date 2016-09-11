@@ -1,6 +1,6 @@
 # IPBActivityWatcher
 
-This is a script which retrieves the latest forum activity and user notifications from an IP Board 4 platform.
+This is an AngularJS application which retrieves the latest forum activity and user notifications from an IP Board 4 platform.
 
 Installation
 -
