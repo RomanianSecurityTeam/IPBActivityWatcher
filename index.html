@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html ng-app="Feedr" ng-controller="MainCtrl">
+<head>
+    <base href="/index/" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title ng-if="notificationsCount">({{ notificationsCount }}) Activity Watcher &bull; {{ app.title }}</title>
+    <title ng-if="! notificationsCount">Activity Watcher &bull; {{ app.title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css" />
+    <link rel="stylesheet/less" type="text/css" href="less/main.less" />
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/transition.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/components/popup.min.js"></script>
+
+    <script type="text/javascript" src="js/md5.min.js"></script>
+    <script type="text/javascript" src="js/moment-precise-range.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/helpers.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body ng-class="{ light: theme === 'light' }">
+
+<div id="buttons">
+    <div ng-click="toggleTheme()">
+        <i class="lightbulb icon" data-content="Toggle {{ theme == 'light' ? 'Dark' : 'White' }} Theme"></i>
+    </div>
+    <div ng-click="toggleNotifications()">
+        <i class="alarm outline icon" ng-class="{ mute: ! notificationsEnabled }"
+           data-content="{{ notificationsEnabled ? 'Mute' : 'Umute' }} Notifications"></i>
+    </div>
+</div>
+
+<div id="wrapper" class="ui grid">
+    <div class="twelve wide column">
+        <div id="header" class="padded">
+            <h1><span class="blink" title="Auto-refreshing every 5 seconds">&bull; </span>{{ app.shortTitle }}<span> Activity Watcher</span>
+            </h1>
+            <nav>
+                <ul>
+                    <li ng-repeat="link in app.nav">
+                        <a ng-class="{ focused: link.highlight }" href="{{ link.url }}" target="{{ link.target }}">
+                            <i class="{{ link.icon }} icon"></i>
+                            {{ link.title }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="clear"></div>
+        </div>
+
+        <div id="list">
+            <div class="ui dimmer" ng-class="{ active: ! activity.length, inverted: theme == 'light' }">
+                <div class="ui text loader">Loading initial activity...</div>
+            </div>
+            <div class="glow"></div>
+            <div class="item" ng-repeat="item in activity | orderBy: '-timestamp'" ng-if="! item.skip"
+                 ng-class="{
+                    event: item.event == 'action',
+                    content: item.event == 'content',
+                    unfocused: item.unfocused
+                 }">
+                <a ng-attr-href="{{ item.url }}" target="_blank">
+                    <table>
+                        <tr>
+                            <td class="author-avatar"
+                                ng-if="item.author_photo || item.type == 'join' || item.type == 'rep' || item.type.substr(0, 6) == 'follow'">
+                                <div class="photo">
+                                    <img ng-if="item.author_photo && item.type != 'join' && item.type.substr(0, 6) != 'follow'"
+                                         ng-src="{{ item.author_photo }}" title="{{ item.author }}'s Avatar" />
+                                    <i class="user add icon" ng-if="item.type == 'join'"></i>
+                                    <i class="plus icon" ng-if="item.type == 'rep' && item.title == 'positive'"></i>
+                                    <i class="minus icon" ng-if="item.type == 'rep' && item.title != 'positive'"></i>
+                                    <i class="eye icon" ng-if="item.type.substr(0, 6) == 'follow'"></i>
+                                </div>
+                            </td>
+                            <td class="content">
+                                <div class="main" ng-if="item.event == 'content'">
+                                    <span ng-if="item.author_url">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <span class="author">{{ item.author }}</span>
+                                        </a>
+                                    </span>
+                                    <span ng-if="item.author && ! item.author_url">
+                                        <span class="author">{{ item.author }}</span>
+                                    </span>
+                                    <span ng-if="item.type == 'post'">
+                                        replied to
+                                    </span>
+                                    <span ng-if="item.type == 'topic'">
+                                        started
+                                    </span>
+                                    <strong class="title">{{ item.title }}</strong>
+                                    <span ng-if="item.category">
+                                        in <a href="{{ item.category_url }}" target="_blank">{{ item.category }}</a>
+                                    </span>
+                                </div>
+                                <div class="event">
+                                    <div ng-if="item.type == 'join'">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <strong>{{ item.author }}</strong>
+                                        </a>
+                                        <span>has joined RST</span>
+                                    </div>
+                                    <div ng-if="item.type == 'follow_topic'">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <strong>{{ item.author }}</strong>
+                                        </a>
+                                        <span>is now following</span>
+                                        <a href="{{ item.url }}" target="_blank">
+                                            <strong>{{ item.title }}</strong>
+                                        </a>
+                                    </div>
+                                    <div ng-if="item.type == 'follow_user'">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <strong>{{ item.author }}</strong>
+                                        </a>
+                                        <span>is now following</span>
+                                        <a href="{{ item.target_url }}" target="_blank">
+                                            <strong>{{ item.target }}</strong>
+                                        </a>
+                                    </div>
+                                    <div ng-if="item.type == 'profile_photo'">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <strong>{{ item.author }}</strong>
+                                        </a>
+                                        <span>changed their profile photo</span>
+                                    </div>
+                                    <div ng-if="item.type == 'rep'">
+                                        <a href="{{ item.author_url }}" target="_blank">
+                                            <strong>{{ item.author }}</strong>
+                                        </a>
+                                        <span>gave <strong>{{ item.title }}</strong> reputation in</span>
+                                        <a href="{{ item.target_url }}" target="_blank">
+                                            {{ item.target }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="post-content" ng-if="item.content">
+                                    <div ng-bind-html="item.content"></div>
+                                </div>
+                            </td>
+                            <td class="timestamp">
+                                <timestamp date="item.timestamp * 1000"></timestamp>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="login" class="four wide column" ng-if="! app.user">
+        <h4>Are you a member?</h4>
+        <h2>Please Login</h2>
+
+        <form class="ui form" action="{{ app.url + '/login/' }}" method="POST">
+            <div class="field">
+                <input type="text" name="auth" placeholder="Username" />
+            </div>
+            <div class="field">
+                <input type="password" name="password" placeholder="Password" />
+            </div>
+
+            <div class="ui grid">
+                <div class="ten wide column">
+                    Don't have an account? <a href="{{ app.url }}/register.php">Register</a>
+                </div>
+                <div class="six wide column right aligned">
+                    <button type="submit" class="ui green icon button">
+                        <i class="sign in icon"></i>
+                        Sign In
+                    </button>
+                </div>
+            </div>
+
+            <input type="hidden" name="login__standard_submitted" value="1">
+            <input type="hidden" name="remember_me_checkbox" value="1">
+            <input type="hidden" name="signin_anonymous" value="0">
+            <input type="hidden" name="csrfKey" value="{{ app.csrfKey }}" />
+        </form>
+    </div>
+
+    <div id="user" class="four wide column" ng-if="app.user">
+        <div class="bar">
+            <table>
+                <tr>
+                    <td>
+                        <div class="avatar">
+                            <a href="{{ app.user.url }}" target="_blank">
+                                <img ng-src="{{ app.user.avatar }}" />
+                            </a>
+                        </div>
+                    </td>
+                    <td class="name">
+                        <div class="greeting">Welcome back,</div>
+                        <div><a href="{{ app.user.url }}" target="_blank">{{ app.user.name }}</a></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="tabs ui three columns grid">
+            <div class="wide column" ng-click="selectTab('alerts')" ng-class="{ active: tab == 'alerts' }">
+                <div class="notification-counter" ng-if="$root.notificationsCounter.alerts">{{
+                    $root.notificationsCounter.alerts }}
+                </div>
+                <i class="bell icon"></i>
+            </div>
+            <div class="wide column" ng-click="selectTab('inbox')" ng-class="{ active: tab == 'inbox' }">
+                <div class="notification-counter" ng-if="$root.notificationsCounter.inbox">{{
+                    $root.notificationsCounter.inbox }}
+                </div>
+                <i class="envelope icon"></i>
+            </div>
+            <div class="wide column" ng-click="selectTab('reports')" ng-class="{ active: tab == 'reports' }"
+                 ng-if="app.user.isMod">
+                <div class="notification-counter" ng-if="$root.notificationsCounter.reports">{{
+                    $root.notificationsCounter.reports }}
+                </div>
+                <i class="warning sign icon"></i>
+            </div>
+        </div>
+        <div class="wrapper">
+            <list resource="alerts" csrfKey="app.csrfKey" ng-show="tab == 'alerts'"></list>
+            <list resource="inbox" csrfKey="app.csrfKey" ng-show="tab == 'inbox'"></list>
+            <list resource="reports" csrfKey="app.csrfKey" ng-show="tab == 'reports'" ng-if="app.user.isMod"></list>
+        </div>
+    </div>
+
+    <div id="footer" class="sixteen wide column">
+        <span><i class="copyright icon"></i> <a href="{{ app-url }}">{{ app.title }}</a></span>
+        <span class="right floated"><i class="code icon"></i> Developed by <a href="http://degecko.com" target="_blank">Gecko</a></span>
+    </div>
+</div>
+
+</body>
+</html>

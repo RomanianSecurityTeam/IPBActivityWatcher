@@ -1,0 +1,53 @@
+<ul id="{{ resource }}" class="list">
+    <li class="view-all" ng-if="resource == 'alerts'">
+        <a href="{{ $root.app.url }}/notifications/" target="_blank">
+            <i class="list icon"></i>
+            All Notifications
+        </a>
+    </li>
+
+    <li class="view-all" ng-if="resource == 'inbox'">
+        <a href="{{ $root.app.url }}" target="_blank">
+            <i class="list icon"></i>
+            Messages Inbox
+        </a>
+    </li>
+
+    <li class="view-all" ng-if="resource == 'reports'">
+        <a href="{{ $root.app.url }}/modcp/reports/" target="_blank">
+            <i class="list icon"></i>
+            All Reported Content
+        </a>
+    </li>
+
+    <li ng-repeat="item in list | orderBy: '-timestamp'" ng-class="{ unfocused: item.unfocused }">
+        <a href="{{ item.url }}" target="_blank">
+            <table>
+                <tr>
+                    <td class="avatar">
+                        <img ng-src="{{ item.author_photo }}" />
+                    </td>
+                    <td>
+                        <div ng-if="resource == 'alerts'">
+                            <div class="message">{{ item.message }}</div>
+                        </div>
+                        <div ng-if="resource == 'inbox'">
+                            <div class="message">
+                                <a href="{{ item.author_url }}" target="_blank"><strong>{{ item.author }}</strong></a>
+                                sent you a message: <strong>{{ item.title }}</strong>
+                            </div>
+                            <div class="excerpt">{{ item.message }}</div>
+                        </div>
+                        <div ng-if="resource == 'reports'">
+                            <div class="message">
+                                <a href="{{ item.author_url }}" target="_blank"><strong>{{ item.author }}</strong></a>
+                                reported <strong>{{ item.title }}</strong>
+                            </div>
+                        </div>
+                        <timestamp date="item.timestamp * 1000" class="timestamp"></timestamp>
+                    </td>
+                </tr>
+            </table>
+        </a>
+    </li>
+</ul>
