@@ -1,10 +1,10 @@
 var notifySound = new Audio(IPBAW.url + '/applications/core/interface/sounds/notification.mp3');
-var focused = true;
+window.focused = true;
 
 window.onfocus = function () {
-    focused = true;
+    window.focused = true;
 };
-window.onblur = function () { focused = false };
+window.onblur = function () { window.focused = false };
 
 $(document).ready(function() {
     $(window).trigger('focus');
@@ -66,7 +66,7 @@ var ContentHandler = {
             type: this.determineType(),
             event: this.elem.hasClass('ipsStreamItem_contentBlock') ? 'content' : 'action',
             timestamp: this.elem.data('timestamp') || parseInt(moment(this.elem.find('time').attr('datetime')) / 1000),
-            unfocused: ! focused
+            unfocused: ! window.focused
         };
         // Get type specific fields.
         this[this.props.type]();
