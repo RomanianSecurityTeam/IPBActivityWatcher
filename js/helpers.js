@@ -143,7 +143,7 @@ var ContentHandler = {
         angular.extend(this.props, {
             url          : this.elem.find('.ipsStreamItem_title a').last().attr('href'),
             title        : this.elem.find('.ipsStreamItem_title a').last().text(),
-            content      : this.elem.find('[data-ipstruncate]').html().removeExcess(),
+            content      : this.elem.find('.ipsStreamItem_snippet').text().trim(),
             author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim(),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
             author_photo : this.elem.find('a.ipsUserPhoto img').attr('src'),
