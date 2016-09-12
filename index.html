@@ -46,7 +46,7 @@
             <nav>
                 <ul>
                     <li ng-repeat="link in app.nav">
-                        <a ng-class="{ focused: link.highlight }" href="{{ link.url }}" target="{{ link.target }}">
+                        <a ng-class="{ focused: link.highlight }" href="{{ link.url | makeUrl }}" target="{{ link.target }}">
                             <i class="{{ link.icon }} icon"></i>
                             {{ link.title }}
                         </a>

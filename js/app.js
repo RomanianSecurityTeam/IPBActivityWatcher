@@ -192,7 +192,7 @@
                 }
 
                 function getList() {
-                    $.post(IPBAW.url, params)
+                    $.get(IPBAW.url, params)
                         .done(function (res) {
                             var stream = $('<div/>').html(res.data || res).find('> li, > ol > li');
 
@@ -215,6 +215,12 @@
                 getList();
                 setInterval(getList, 5000);
             }
+        }
+    });
+
+    app.filter('makeUrl', function () {
+        return function (input) {
+            return input.match(/^https?:/) ? input : IPBAW.url.replace(/\/+$/g, '') + input;
         }
     });
 
