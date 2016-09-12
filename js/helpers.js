@@ -54,7 +54,9 @@ $.fn.getMD5 = function () {
     var elem = angular.copy(this).wrap('<div/>');
     elem.find('time').remove();
 
-    return md5(elem.html().replace(/<time.*?<\/time>/g, ''));
+    return md5(elem.html()
+        .replace(/<time.*?<\/time>/g, '')
+        .replace(/(<span data-ipstooltip.*?title=).Started by .*?>/i, '$1"">'));
 };
 
 var ContentHandler = {
@@ -114,8 +116,6 @@ var ContentHandler = {
             author_photo : this.elem.find('.ipsDataItem_icon a img').attr('src'),
             message      : this.elem.find('.ipsDataItem_title').text()
         });
-
-        //console.log(this.elem.html());
     },
 
     user_inbox: function () {
