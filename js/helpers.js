@@ -24,7 +24,7 @@ String.prototype.getMatch = function (regex, index, def) {
 };
 
 String.prototype.removeExcess = function () {
-    return (this || '').replace(/(<br ?\/?>|\n)/g, ' ').trim().substr(0, 1024);
+    return (this || '').replace(/(<br ?\/?>|\n)/g, ' ').trim().substr(0, 1024).clean();
 };
 
 Array.prototype.maxBy = function (prop) {
@@ -120,7 +120,7 @@ var ContentHandler = {
             author       : this.elem.find('.ipsDataItem_icon a').text(),
             author_url   : this.elem.find('.ipsDataItem_icon a').attr('href'),
             author_photo : this.elem.find('.ipsDataItem_icon a img').attr('src'),
-            message      : this.elem.find('.ipsDataItem_title').text()
+            message      : this.elem.find('.ipsDataItem_title').text().clean()
         });
     },
 
@@ -138,7 +138,7 @@ var ContentHandler = {
     user_reports: function () {
         angular.extend(this.props, {
             url          : this.elem.find('.ipsDataItem_title a').attr('href'),
-            title        : this.elem.find('.ipsDataItem_title a').text(),
+            title        : this.elem.find('.ipsDataItem_title a').text().clean(),
             author       : this.elem.find('a.ipsUserPhoto img').attr('alt'),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
             author_photo : this.elem.find('a.ipsUserPhoto img').attr('src'),
@@ -148,7 +148,7 @@ var ContentHandler = {
     post: function () {
         angular.extend(this.props, {
             url          : this.elem.find('.ipsStreamItem_title a').last().attr('href'),
-            title        : this.elem.find('.ipsStreamItem_title a').last().text(),
+            title        : this.elem.find('.ipsStreamItem_title a').last().text().clean(),
             content      : this.elem.find('.ipsStreamItem_snippet').text().clean(),
             author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim(),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
