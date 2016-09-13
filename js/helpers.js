@@ -1,10 +1,12 @@
 var notifySound = new Audio(IPBAW.url + '/applications/core/interface/sounds/notification.mp3');
 window.focused = true;
 
-window.onfocus = function () {
-    window.focused = true;
+window.onload = function () {
+    window.onfocus = function () {
+        window.focused = true;
+    };
+    window.onblur = function () { window.focused = false };
 };
-window.onblur = function () { window.focused = false };
 
 $(document).ready(function() {
     $(window).trigger('focus');

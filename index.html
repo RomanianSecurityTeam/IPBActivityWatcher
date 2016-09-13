@@ -27,6 +27,9 @@
 <body ng-class="{ light: theme === 'light' }">
 
 <div id="buttons">
+    <div id="toggle-user-sidebar" ng-click="toggleSidebar()" ng-if="app.user" ng-class="{ open: displaySidebar }">
+        <i class="user icon"></i>
+    </div>
     <div ng-click="toggleTheme()">
         <i class="lightbulb icon" data-content="Toggle {{ theme == 'light' ? 'Dark' : 'White' }} Theme"></i>
     </div>
@@ -38,12 +41,18 @@
         <i class="options icon"
            data-content="Show {{ activityType == 'all' ? 'Only Posts & Topics' : 'All' }} Activity"></i>
     </div>
+    <div ng-click="toggleBanlist()">
+        <i class="ban icon" data-content="Show Ban List"></i>
+    </div>
 </div>
 
 <div id="wrapper" class="ui grid">
-    <div class="twelve wide column">
+    <div class="twelve wide column" ng-class="{ blurred: displaySidebar }">
         <div id="header" class="padded">
-            <h1><span class="blink" title="Auto-refreshing every 5 seconds">&bull; </span>{{ app.shortTitle }}<span> Activity Watcher</span>
+            <h1>
+                <span class="blink" title="Auto-refreshing every 5 seconds">&bull;</span>
+                {{ app.shortTitle }}
+                <span>Activity Watcher</span>
             </h1>
             <nav>
                 <ul>
@@ -192,7 +201,7 @@
         </form>
     </div>
 
-    <div id="user" class="four wide column" ng-if="app.user">
+    <div id="user" class="four wide column" ng-if="app.user" ng-class="{ open: displaySidebar }">
         <div class="bar">
             <table>
                 <tr>
@@ -242,6 +251,16 @@
         <span><i class="copyright icon"></i> <a href="{{ app-url }}">{{ app.title }}</a></span>
         <span class="right floated"><i class="code icon"></i> Developed by <a href="http://degecko.com" target="_blank">Gecko</a></span>
     </div>
+</div>
+
+<div id="banlist" ng-show="displayBanlist">
+    <div>
+        <h1>Ban List</h1>
+        <p>Specify here ignored authors.</p>
+        <p>It only ignores activity content, not PMs or notifications.</p>
+        <p>Separate each author with a new line (enter).</p>
+    </div>
+    <textarea ng-model="banned" placeholder="e.g.: john_doe_1337"></textarea>
 </div>
 
 </body>

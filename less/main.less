@@ -61,8 +61,8 @@ h1, h2, h3 {
 
 #buttons {
   position: fixed;
-  top: 4px;
   right: 0;
+  z-index: 10;
 
   > div {
     padding: 10px;
@@ -86,6 +86,56 @@ h1, h2, h3 {
   clear: both;
 }
 
+#toggle-user-sidebar {
+  display: none;
+  background-color: @green;
+  height: 60px;
+
+  i.icon {
+    color: #fff;
+    margin-top: 7px;
+  }
+
+  &.open {
+    background-color: #eee;
+
+    i.icon {
+      color: @green;
+    }
+  }
+
+  @media (max-width: 1279px) {
+    display: block;
+  }
+}
+
+#banlist {
+  background-color: #04050a;
+  position: fixed;
+  top: 100px;
+  width: 360px;
+  left: 50%;
+  margin-left: -180px;
+  border-radius: 3px;
+  z-index: 11;
+  border: 1px solid @green;
+
+  > div {
+    padding: 20px;
+  }
+
+  textarea {
+    display: block;
+    background-color: rgba(255, 255, 255, .05);
+    height: 150px;
+    width: 100%;
+    border: none;
+    color: #fff;
+    padding: 20px;
+    resize: none;
+  }
+}
+
 #wrapper {
   margin: 0 auto;
   padding: 0 50px;
@@ -95,15 +145,24 @@ h1, h2, h3 {
     background-color: #17171c;
     padding: 0;
 
+    &.blurred {
+      filter: blur(2px);
+    }
+
     &:first-child {
       @media (max-width: 1279px) {
         width: 100% !important;
+
+        #toggle-user-sidebar {
+          display: block;
+        }
       }
     }
   }
 
   @media (max-width: 560px) {
     padding: 0;
+    margin-right: 50px;
   }
 
   #header {
@@ -220,19 +279,7 @@ h1, h2, h3 {
     }
 
     a {
-      color: #555;
-
-      &:hover {
-        color: #888;
-
-        .main .title {
-          color: #ccc;
-        }
-
-        a {
-          color: #ccc;
-        }
-      }
+      color: #777;
 
       a {
         position: relative;
@@ -347,6 +394,10 @@ h1, h2, h3 {
             }
           }
         }
+
+        .post-content {
+          color: #ccc;
+        }
       }
 
       &.content {
@@ -375,11 +426,21 @@ h1, h2, h3 {
   }
 
   #user {
+    background-color: #111117;
+    transition: right .3s;
+
     @media (max-width: 1279px) {
-      display: none;
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 300px !important;
+      z-index: 5;
     }
 
-    background-color: #111117;
+    &.open {
+      right: 48px;
+      box-shadow: -3px 3px 10px 0 #000;
+    }
 
     .bar {
       background-color: @green;
@@ -465,7 +526,7 @@ h1, h2, h3 {
       }
 
       a {
-        color: #444;
+        color: #666;
 
         &:hover {
           color: @green;
@@ -507,8 +568,9 @@ h1, h2, h3 {
             padding: 15px 10px;
 
             &.avatar {
+              padding-left: 15px;
               padding-right: 5px;
-              width: 47px;
+              width: 52px;
             }
           }
         }
@@ -530,6 +592,11 @@ h1, h2, h3 {
 .light {
   color: #999;
 
+  #banlist {
+    background-color: #eee;
+    color: #444;
+  }
+
   #wrapper {
     > .column {
       background-color: #eff0f6;
@@ -541,6 +608,10 @@ h1, h2, h3 {
 
     #user {
       background-color: #dadbe0;
+
+      &.open {
+        box-shadow: -3px 3px 10px 0 rgba(0, 0, 0, .2);
+      }
 
       .tabs {
         background-color: #e8e9ef;
@@ -619,6 +690,10 @@ h1, h2, h3 {
 
           &.event {
             background-color: rgba(0, 0, 0, .03);
+          }
+
+          .post-content {
+            color: #444;
           }
         }
 
