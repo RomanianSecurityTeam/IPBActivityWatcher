@@ -40,6 +40,7 @@
         $scope.tab = localStorage.tab || 'alerts';
         $scope.banned = localStorage.banned || '';
         $scope.activityType = localStorage.activityType || 'content';
+        $scope.ignoredCategories = localStorage.ignoredCategories || $scope.app.ignoredCategories.join('\n');
         $scope.notificationsEnabled = localStorage.notificationsEnabled || true;
 
         $scope.$watch('app', function () {
@@ -54,11 +55,13 @@
             });
         });
 
-        $scope.$watch('banned', function (value) {
-            if (value) {
-                localStorage.banned = value;
-                updateBannedUsers();
-            }
+        angular.forEach(['banned', 'ignoredCategories'], function (resource) {
+            $scope.$watch(resource, function (value) {
+                if (value) {
+                    localStorage[resource] = value;
+                    updateBannedResources();
+                }
+            });
         });
 
         $window.onfocus = function () {
@@ -113,11 +116,14 @@
             }
         }
 
-        function updateBannedUsers() {
+        function updateBannedResources() {
             var banned = angular.copy($scope.banned).split('\n').map(function (item) { return item.trim() });
+            var ignoredCategories = angular.copy($scope.ignoredCategories).split('\n').map(function (item) { return item.trim() });
 
             angular.forEach($scope.activity, function (item, i) {
-                $scope.activity[i].skip = item.author && banned.indexOf(item.author) > -1;
+                $scope.activity[i].skip =
+                    (item.author && banned.indexOf(item.author) > -1)
+                    || (item.category && ignoredCategories.indexOf(item.category) > -1);
             });
         }
 
@@ -149,7 +155,7 @@
                 $scope.activity.push(ContentHandler.process($(this)).get());
             });
 
-            updateBannedUsers();
+            updateBannedResources();
         }
 
         function handleNewActivity(data) {
@@ -165,7 +171,7 @@
                 $scope.$apply();
             });
 
-            updateBannedUsers();
+            updateBannedResources();
         }
 
         $scope.toggleTheme = function () {

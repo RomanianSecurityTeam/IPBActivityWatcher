@@ -255,12 +255,20 @@
 
 <div id="banlist" ng-show="displayBanlist">
     <div>
-        <h1>Ban List</h1>
-        <p>Specify here ignored authors.</p>
+        <h3>Banned Content</h3>
+
         <p>It only ignores activity content, not PMs or notifications.</p>
-        <p>Separate each author with a new line (enter).</p>
+        <p>It only ignores activity content, not PMs or notifications.</p>
+        <p>Separate each entry by a new line (enter).</p>
+
+        <h3>Ignored Authors</h3>
     </div>
     <textarea ng-model="banned" placeholder="e.g.: john_doe_1337"></textarea>
+
+    <div>
+        <h3>Ignored Categories</h3>
+    </div>
+    <textarea ng-model="ignoredCategories" placeholder="e.g.: Cosul de gunoi"></textarea>
 </div>
 
 </body>
