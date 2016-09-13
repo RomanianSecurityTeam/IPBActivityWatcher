@@ -25,16 +25,20 @@
             <table>
                 <tr>
                     <td class="avatar">
-                        <img check-src="item.author_photo"></img>
+                        <img check-src="item.author_photo" />
                     </td>
                     <td>
                         <div ng-if="resource == 'alerts'">
                             <div class="message">{{ item.message }}</div>
                         </div>
                         <div ng-if="resource == 'inbox'">
-                            <div class="message">
+                            <div class="message" ng-if="item.author != $root.app.user.name">
                                 <a href="{{ item.author_url }}" target="_blank"><strong>{{ item.author }}</strong></a>
                                 sent you a message: <strong>{{ item.title }}</strong>
+                            </div>
+                            <div class="message" ng-if="item.author == $root.app.user.name">
+                                <a href="{{ item.author_url }}" target="_blank"><strong>You</strong></a>
+                                sent a message in conversation: <strong>{{ item.title }}</strong>
                             </div>
                             <div class="excerpt">{{ item.message }}</div>
                         </div>
