@@ -11,6 +11,7 @@
             reports  : 0
         };
 
+        $scope.activityType = 'all';
         $scope.activity = [];
         $scope.app = IPBAW || {};
         $scope.app.url = $scope.app.url.replace(/\/+$/g, '');
@@ -50,6 +51,10 @@
 
         $scope.selectTab = function (tab) {
             $scope.tab = tab;
+        };
+
+        $scope.toggleActivityType = function () {
+            $scope.activityType = $scope.activityType == 'all' ? 'content' : 'all';
         };
 
         setInterval(checkActivity, 5000);
@@ -241,7 +246,7 @@
             if (typeof input !== 'string') {
                 return input;
             }
-            
+
             return input.match(/^https?:/) ? input : IPBAW.url.replace(/\/+$/g, '') + input;
         }
     });
