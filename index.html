@@ -207,7 +207,7 @@
                 </tr>
             </table>
         </div>
-        <div class="tabs ui three columns grid">
+        <div class="tabs ui grid" ng-class="{ 'three columns': app.user.isMod, 'two columns': ! app.user.isMod }">
             <div class="wide column" ng-click="selectTab('alerts')" ng-class="{ active: tab == 'alerts' }">
                 <div class="notification-counter" ng-if="$root.notificationsCounter.alerts">{{
                     $root.notificationsCounter.alerts }}
