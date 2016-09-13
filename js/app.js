@@ -238,6 +238,10 @@
 
     app.filter('makeUrl', function () {
         return function (input) {
+            if (typeof input !== 'string') {
+                return input;
+            }
+            
             return input.match(/^https?:/) ? input : IPBAW.url.replace(/\/+$/g, '') + input;
         }
     });
