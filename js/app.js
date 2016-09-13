@@ -218,6 +218,22 @@
         }
     });
 
+    app.directive('imgError', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                imgError: '='
+            },
+            link: function (scope, element, attrs) {
+                element.bind('error', function () {
+                    if (attrs.src != scope.imgError) {
+                        attrs.$set('src', scope.imgError);
+                    }
+                });
+            }
+        }
+    });
+
     app.filter('makeUrl', function () {
         return function (input) {
             return input.match(/^https?:/) ? input : IPBAW.url.replace(/\/+$/g, '') + input;

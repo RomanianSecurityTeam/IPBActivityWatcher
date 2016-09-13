@@ -13,6 +13,9 @@ var IPBAW = {
     // IPB base URL. The URL of your forum.
     url: 'http://ipb.app/index.php?/',
 
+    // Default avatar path.
+    defaultAvatar: '/uploads/set_resources_1/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png',
+
     // Navigation links.
     // Icon names here: http://semantic-ui.com/elements/icon.html
     nav: [
