@@ -86,6 +86,18 @@ h1, h2, h3 {
   clear: both;
 }
 
+.two.columns {
+  > .column {
+    width: 50% !important;
+  }
+}
+
+.three.columns {
+  > .column {
+    width: 33.33333% !important;
+  }
+}
+
 #toggle-user-sidebar {
   display: none;
   background-color: @green;
@@ -448,7 +460,13 @@ h1, h2, h3 {
       color: #fff;
       text-shadow: 0 2px 0 rgba(0, 0, 0, .2);
 
+      table {
+        height: 60px;
+      }
+
       .avatar {
+        width: 60px;
+        
         img {
           display: block;
           max-height: 60px;

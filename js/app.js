@@ -11,9 +11,31 @@
             reports  : 0
         };
 
-        $scope.activity = [];
         $scope.app = IPBAW || {};
         $scope.app.url = $scope.app.url.replace(/\/+$/g, '');
+        $scope.activity = [];
+
+        angular.forEach([1, 2, 3, 4, 5], function () {
+            $scope.activity.push({
+                type: 'topic',
+                event: 'content',
+                timestamp: moment().subtract(1, 'days').unix(),
+                url: '#',
+                title: 'Lorem Ipsum Dolor',
+                content: 'Lorem Ipsum',
+                author: 'John Doe',
+                author_url: '#',
+                author_photo: $scope.app.url + IPBAW.defaultAvatar,
+                category: 'Lorem Ipsum',
+                category_url: '#'
+            });
+        });
+        $scope.app.user = {
+            name   : 'Johnny Doewitzh',
+            url    : '#',
+            avatar : $scope.app.url + IPBAW.defaultAvatar,
+            isMod  : false
+        };
 
         $scope.tab = localStorage.tab || 'alerts';
         $scope.banned = localStorage.banned || '';
@@ -114,9 +136,11 @@
                     name   : userMatch[3],
                     url    : userMatch[1],
                     avatar : userMatch[2],
-                    isMod  : html.match(/\/modcp\/reports\//)
+                    isMod  : !! html.match(/\/modcp\/reports\//)
                 };
             }
+
+            $scope.activity = [];
 
             var stream = $(html.getMatch(/(<ol class=.ipsStream[\s\S]*?<\/ol>)/))
                 .find('> li').not('.ipsStreamItem_time');
@@ -260,11 +284,9 @@
             link: function ($scope, $elem, $attr) {
                 var image = new Image();
                 image.src = $scope.checkSrc;
-
                 image.onload = function () {
                     $attr.$set('src', $scope.checkSrc);
                 };
-
                 image.onerror = function () {
                     $attr.$set('src', IPBAW.url.replace(/\/+$/, '') + '/' + IPBAW.defaultAvatar.replace(/^\/+/, ''));
                 };
