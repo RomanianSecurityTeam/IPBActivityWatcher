@@ -51,11 +51,11 @@ h1, h2, h3 {
 }
 
 &.unfocused {
-  background-color: @green;
+  background-color: rgba(255, 255, 255, .05);
 
   &.old {
     transition: background 1s !important;
-    background: none;
+    background: none !important;
   }
 }
 
@@ -144,6 +144,7 @@ h1, h2, h3 {
   > .column {
     background-color: #17171c;
     padding: 0;
+    transition: filter .25s;
 
     &.blurred {
       filter: blur(2px);
@@ -427,12 +428,12 @@ h1, h2, h3 {
 
   #user {
     background-color: #111117;
-    transition: right .3s;
+    transition: right .25s;
 
     @media (max-width: 1279px) {
       position: absolute;
       top: 0;
-      right: -100%;
+      right: -300px;
       width: 300px !important;
       z-index: 5;
     }
@@ -595,6 +596,10 @@ h1, h2, h3 {
   #banlist {
     background-color: #eee;
     color: #444;
+  }
+
+  .item.unfocused {
+    background-color: rgba(0, 0, 0, .1);
   }
 
   #wrapper {
