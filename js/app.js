@@ -3,6 +3,7 @@
     var app = angular.module('Feedr', ['ngSanitize']);
 
     app.controller('MainCtrl', function ($scope, $rootScope, $http, $window) {
+        $rootScope.notificationsCount = 0;
         $rootScope.notificationsCounter = {
             activity : 0,
             alerts   : 0,
