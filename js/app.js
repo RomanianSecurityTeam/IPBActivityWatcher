@@ -249,18 +249,25 @@
         }
     });
 
-    app.directive('imgError', function () {
+    app.directive('checkSrc', function () {
         return {
             restrict: 'A',
+            replace: true,
             scope: {
-                imgError: '='
+                checkSrc: '='
             },
-            link: function (scope, element, attrs) {
-                element.bind('error', function () {
-                    if (attrs.src != scope.imgError) {
-                        attrs.$set('src', scope.imgError);
-                    }
-                });
+            template: '<img />',
+            link: function ($scope, $elem, $attr) {
+                var image = new Image();
+                image.src = $scope.checkSrc;
+
+                image.onload = function () {
+                    $attr.$set('src', $scope.checkSrc);
+                };
+
+                image.onerror = function () {
+                    $attr.$set('src', IPBAW.url.replace(/\/+$/, '') + '/' + IPBAW.defaultAvatar.replace(/^\/+/, ''));
+                };
             }
         }
     });

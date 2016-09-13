@@ -87,7 +87,7 @@
                                 ng-if="item.author_photo || item.type == 'join' || item.type == 'rep' || item.type.substr(0, 6) == 'follow'">
                                 <div class="photo">
                                     <img ng-if="item.author_photo && item.type != 'join' && item.type.substr(0, 6) != 'follow'"
-                                         ng-src="{{ item.author_photo }}" img-error="app.defaultAvatar | makeUrl" title="{{ item.author }}'s Avatar" />
+                                           check-src="item.author_photo"></img>
                                     <i class="user add icon" ng-if="item.type == 'join'"></i>
                                     <i class="plus icon" ng-if="item.type == 'rep' && item.title == 'positive'"></i>
                                     <i class="minus icon" ng-if="item.type == 'rep' && item.title != 'positive'"></i>
