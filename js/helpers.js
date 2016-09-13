@@ -50,6 +50,12 @@ Array.prototype.exists = function (key, value) {
     return false;
 };
 
+String.prototype.clean = function () {
+    var string = this + '';
+
+    return string.replace(/<.*?>/g, '').substr(0, 1024).trim();
+};
+
 $.fn.getMD5 = function () {
     var elem = angular.copy(this).wrap('<div/>');
     elem.find('time').remove();
@@ -143,7 +149,7 @@ var ContentHandler = {
         angular.extend(this.props, {
             url          : this.elem.find('.ipsStreamItem_title a').last().attr('href'),
             title        : this.elem.find('.ipsStreamItem_title a').last().text(),
-            content      : this.elem.find('.ipsStreamItem_snippet').text().trim(),
+            content      : this.elem.find('.ipsStreamItem_snippet').text().clean(),
             author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim(),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
             author_photo : this.elem.find('a.ipsUserPhoto img').attr('src'),
