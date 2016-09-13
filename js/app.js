@@ -166,6 +166,7 @@
                 var params = { app: 'core', csrfKey: $scope.csrfKey };
 
                 $scope.list = [];
+                $scope.app = IPBAW || {};
 
                 switch ($scope.resource) {
                     case 'alerts':
