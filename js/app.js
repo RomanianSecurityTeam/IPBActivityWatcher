@@ -11,7 +11,7 @@
             reports  : 0
         };
 
-        $scope.activityType = localStorage.activitType || 'all';
+        $scope.activityType = localStorage.activityType || 'all';
         $scope.activity = [];
         $scope.app = IPBAW || {};
         $scope.app.url = $scope.app.url.replace(/\/+$/g, '');
@@ -31,9 +31,9 @@
             }
         });
 
-        $scope.$watch('activitType', function (activitType) {
-            if (activitType) {
-                localStorage.activitType = activitType;
+        $scope.$watch('activityType', function (activityType) {
+            if (activityType) {
+                localStorage.activityType = activityType;
             }
         });
 
