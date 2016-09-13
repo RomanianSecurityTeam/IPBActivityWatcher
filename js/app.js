@@ -11,7 +11,7 @@
             reports  : 0
         };
 
-        $scope.activityType = localStorage.activityType || 'all';
+        $scope.activityType = localStorage.activityType || 'content';
         $scope.activity = [];
         $scope.app = IPBAW || {};
         $scope.app.url = $scope.app.url.replace(/\/+$/g, '');
