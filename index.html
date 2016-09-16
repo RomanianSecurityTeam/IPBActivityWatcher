@@ -37,9 +37,22 @@
         <i class="alarm outline icon" ng-class="{ mute: ! notificationsEnabled }"
            data-content="{{ notificationsEnabled ? 'Mute' : 'Umute' }} Notifications"></i>
     </div>
-    <div ng-click="toggleActivityType()">
-        <i class="options icon"
-           data-content="Show {{ activityType == 'all' ? 'Only Posts & Topics' : 'All' }} Activity"></i>
+    <div>
+        <i class="options icon" ng-click="showActivityTypes = ! showActivityTypes"></i>
+        <ul ng-show="showActivityTypes">
+            <li ng-click="changeActivityType('all')" ng-class="{ checked: activityType == 'all' }">
+                <i class="check icon"></i>
+                All Activity
+            </li>
+            <li ng-click="changeActivityType('topic')" ng-class="{ checked: activityType == 'topic' }">
+                <i class="check icon"></i>
+                Topics Activity
+            </li>
+            <li ng-click="changeActivityType('content')" ng-class="{ checked: activityType == 'content' }">
+                <i class="check icon"></i>
+                Posts & Topics Activity
+            </li>
+        </ul>
     </div>
     <div ng-click="toggleBanlist()">
         <i class="ban icon" data-content="Show Ban List"></i>
@@ -74,7 +87,10 @@
             </div>
             <div class="glow"></div>
             <div class="item" ng-repeat="item in activity | orderBy: '-timestamp'"
-                 ng-if="! item.skip && (activityType == 'all' || item.event == activityType)"
+                 ng-if="! item.skip && (
+                    activityType == 'all' ||
+                    item.event == activityType ||
+                    item.type == activityType)"
                  ng-class="{
                     event: item.event == 'action',
                     content: item.event == 'content',
@@ -254,6 +270,9 @@
 </div>
 
 <div id="banlist" ng-show="displayBanlist">
+    <div class="close" ng-click="displayBanlist = false">
+        <i class="close icon"></i>
+    </div>
     <div>
         <h3>Banned Content</h3>
 

@@ -57,10 +57,8 @@
 
         angular.forEach(['banned', 'ignoredCategories'], function (resource) {
             $scope.$watch(resource, function (value) {
-                if (value) {
-                    localStorage[resource] = value;
-                    updateBannedResources();
-                }
+                localStorage[resource] = value;
+                updateBannedResources();
             });
         });
 
@@ -82,8 +80,8 @@
             $scope.tab = tab;
         };
 
-        $scope.toggleActivityType = function () {
-            $scope.activityType = $scope.activityType == 'all' ? 'content' : 'all';
+        $scope.changeActivityType = function (type) {
+            $scope.activityType = type;
         };
 
         $scope.toggleSidebar = function () {

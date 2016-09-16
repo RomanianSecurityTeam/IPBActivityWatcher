@@ -6,6 +6,7 @@ body {
   background-color: #04050a;
   font-family: Roboto, sans-serif;
   color: #ddd;
+  overflow-x: hidden;
 
   &.light {
     background-color: #e5e3e3;
@@ -65,7 +66,6 @@ h1, h2, h3 {
   z-index: 10;
 
   > div {
-    padding: 10px;
     color: #444;
     font-size: 24px;
     cursor: pointer;
@@ -73,11 +73,48 @@ h1, h2, h3 {
     transition: all .15s;
 
     i {
-      margin: 0;
+      margin: 15px 10px;
     }
 
     &:hover {
       color: #999;
+    }
+
+    ul {
+      position: absolute;
+      right: 0;
+      width: 240px;
+      margin-top: -50px;
+      margin-right: 50px;
+      padding: 0;
+      background-color: rgba(0, 0, 0, .8);
+
+      li {
+        display: block;
+        font-size: 16px;
+        padding: 15px;
+        line-height: normal;
+        color: #aaa;
+
+        &:hover {
+          background-color: #000;
+          color: #ccc;
+        }
+
+        i.icon {
+          margin: 0 5px 0 0;
+          opacity: 0;
+        }
+
+        &.checked {
+          color: @green;
+          font-weight: bold;
+
+          i.icon {
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 }
@@ -105,7 +142,6 @@ h1, h2, h3 {
 
   i.icon {
     color: #fff;
-    margin-top: 7px;
   }
 
   &.open {
@@ -126,11 +162,25 @@ h1, h2, h3 {
   position: fixed;
   top: 100px;
   width: 360px;
+  max-width: 100%;
   left: 50%;
   margin-left: -180px;
   border-radius: 3px;
   z-index: 11;
   border: 1px solid @green;
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+    line-height: normal;
+
+    i.icon {
+      display: block;
+      margin: 15px;
+    }
+  }
 
   > div {
     padding: 20px;
@@ -237,6 +287,10 @@ h1, h2, h3 {
               font-weight: bold;
             }
 
+            @media (max-width: 560px) {
+              padding: 5px;
+            }
+
             &.focused,
             &:active,
             &:hover {
@@ -318,6 +372,10 @@ h1, h2, h3 {
 
             &:first-child {
               padding-left: 15px;
+
+              @media (max-width: 559px) {
+                display: none;
+              }
             }
 
             &:last-child {
