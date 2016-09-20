@@ -43,6 +43,8 @@
         $scope.ignoredCategories = localStorage.ignoredCategories || $scope.app.ignoredCategories.join('\n');
         $scope.notificationsEnabled = localStorage.notificationsEnabled || true;
 
+        $scope.bgColor = localStorage.theme == 'dark' ? '#04050a' : '#e5e3e3';
+
         $scope.$watch('app', function () {
         	$rootScope.app = $scope.app;
         }, true);
@@ -175,8 +177,10 @@
         $scope.toggleTheme = function () {
             if (localStorage.theme == 'light') {
                 localStorage.theme = 'dark';
+                $scope.bgColor = '#04050a';
             } else {
                 localStorage.theme = 'light';
+                $scope.bgColor = '#e5e3e3';
             }
         };
 
