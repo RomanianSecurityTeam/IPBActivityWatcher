@@ -64,11 +64,11 @@
             });
         });
 
-        $window.onfocus = function () {
+        angular.element($window).on('focus', function () {
             $rootScope.notificationsCounter.activity = 0;
             $rootScope.notificationsCounter[$scope.tab] = 0;
             $scope.$apply();
-        };
+        });
 
         $rootScope.$watch('notificationsCounter', function () {
         	$scope.notificationsCount =
