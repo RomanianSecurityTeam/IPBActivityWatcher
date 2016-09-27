@@ -293,5 +293,11 @@
     <textarea ng-model="ignoredCategories" placeholder="e.g.: Cosul de gunoi"></textarea>
 </div>
 
+<div id="initializing-dimmer" class="ui dimmer" ng-class="{ active: initializing, inverted: theme === 'light' }">
+    <div class="ui large text loader">
+        Loading activity...
+    </div>
+</div>
+
 </body>
 </html>

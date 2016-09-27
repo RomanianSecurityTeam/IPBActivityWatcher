@@ -11,31 +11,10 @@
             reports  : 0
         };
 
+        $scope.initializing = true;
         $scope.app = IPBAW || {};
         $scope.app.url = $scope.app.url.replace(/\/+$/g, '');
         $scope.activity = [];
-
-        angular.forEach([1, 2, 3, 4, 5], function () {
-            $scope.activity.push({
-                type: 'topic',
-                event: 'content',
-                timestamp: moment().subtract(1, 'days').unix(),
-                url: '#',
-                title: 'Lorem Ipsum Dolor',
-                content: 'Lorem Ipsum',
-                author: 'John Doe',
-                author_url: '#',
-                author_photo: $scope.app.url + IPBAW.defaultAvatar,
-                category: 'Lorem Ipsum',
-                category_url: '#'
-            });
-        });
-        $scope.app.user = {
-            name   : 'Johnny Doewitzh',
-            url    : '#',
-            avatar : $scope.app.url + IPBAW.defaultAvatar,
-            isMod  : false
-        };
 
         $scope.tab = localStorage.tab || 'alerts';
         $scope.banned = localStorage.banned || '';
@@ -156,6 +135,7 @@
             });
 
             updateBannedResources();
+            $scope.initializing = false;
         }
 
         function handleNewActivity(data) {
