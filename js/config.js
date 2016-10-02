@@ -48,8 +48,8 @@ var IPBAW = {
             icon: 'facebook',
             target: '_blank'
         }
-    ]
+    ],
 
     // If enabled, it prints some useful information in the console, for development purposes.
-    // debug: true
+    //debug: true
 };

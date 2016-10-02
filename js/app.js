@@ -127,8 +127,7 @@
 
             $scope.activity = [];
 
-            var stream = $(html.getMatch(/(<ol class=.ipsStream[\s\S]*?<\/ol>)/))
-                .find('> li').not('.ipsStreamItem_time');
+            var stream = $(html).find('li.ipsStreamItem').not('.ipsStreamItem_time');
 
             stream.each(function () {
                 $scope.activity.push(ContentHandler.process($(this)).get());

@@ -208,8 +208,6 @@ var ContentHandler = {
     },
 
     unsupported: function () {
-        this.props.skip = true;
-
-        IPBAW.debug ? console.log('Unsupported element', this.elem) : null;
+        IPBAW.debug && console.log('Unsupported element', this.elem);
     }
 };

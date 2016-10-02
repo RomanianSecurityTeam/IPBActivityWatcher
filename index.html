@@ -91,7 +91,7 @@
             </div>
             <div class="glow"></div>
             <div class="item" ng-repeat="item in activity | orderBy: '-timestamp'"
-                 ng-if="! item.skip && (
+                 ng-if="item.type != 'unsupported' && ! item.skip && (
                     activityType == 'all' ||
                     item.event == activityType ||
                     item.type == activityType)"
