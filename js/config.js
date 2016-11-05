@@ -11,7 +11,7 @@ var IPBAW = {
     shortTitle: 'RST',
 
     // IPB base URL. The URL of your forum.
-    url: 'http://ipb.app/index.php?/',
+    url: 'http://ipb.dev/index.php?/',
 
     // Default avatar path.
     defaultAvatar: '/uploads/set_resources_1/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png',

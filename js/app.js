@@ -107,7 +107,7 @@
         }
 
         function parseInitialRequest(html) {
-            var userMatch = html.match(/<a href="(.*?\/profile\/.*?\/)".*?ipsUserPhoto_tiny" title="Go to .*? profile">[\s\S]*?<img src='(.*?)' alt='(.*?)' itemprop="image"/);
+            var userMatch = $(html).find('#elUserNav').find('a.ipsUserPhoto_tiny');
 
             angular.extend($scope.app, {
                 csrfKey    : html.getMatch(/csrfKey: "(.+?)",/),
@@ -116,11 +116,11 @@
                 user       : null
             });
 
-            if (userMatch) {
+            if (userMatch.length) {
                 $scope.app.user = {
-                    name   : userMatch[3],
-                    url    : userMatch[1],
-                    avatar : userMatch[2],
+                    url    : userMatch.attr('href'),
+                    name   : userMatch.find('img').attr('alt'),
+                    avatar : userMatch.find('img').attr('src'),
                     isMod  : !! html.match(/\/modcp\/reports\//)
                 };
             }
