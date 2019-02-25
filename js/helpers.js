@@ -152,7 +152,7 @@ var ContentHandler = {
             url          : this.elem.find('.ipsStreamItem_title a').last().attr('href'),
             title        : this.elem.find('.ipsStreamItem_title a').last().text().clean(),
             content      : this.elem.find('.ipsStreamItem_snippet').text().clean(),
-            author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim(),
+            author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim().replace(/<[^>]+>/g, ''),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
             author_photo : this.elem.find('a.ipsUserPhoto img').attr('src'),
             category     : this.elem.find('.ipsStreamItem_status a').text().removeExcess(),
