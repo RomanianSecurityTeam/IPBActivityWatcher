@@ -155,7 +155,7 @@ var ContentHandler = {
             author       : this.html.getMatch(/\s(.*?) (posted a topic|replied to)/).trim().replace(/<[^>]+>/g, ''),
             author_url   : this.elem.find('a.ipsUserPhoto').attr('href'),
             author_photo : this.elem.find('a.ipsUserPhoto img').attr('src'),
-            category     : this.elem.find('.ipsStreamItem_status a').text().removeExcess(),
+            category     : this.elem.find('.ipsStreamItem_status a').last().text().removeExcess(),
             category_url : this.elem.find('.ipsStreamItem_status a').attr('href')
         });
     },
